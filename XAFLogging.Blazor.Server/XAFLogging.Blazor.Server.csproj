@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Deterministic>false</Deterministic>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Configurations>Debug;Release;EasyTest</Configurations>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Model.xafml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model.xafml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Api.Xpo.All" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Blazor" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Dashboards.Blazor" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Blazor" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Office.Blazor" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.ReportsV2.Blazor" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Blazor" Version="22.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.5.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XAFLogging.Module\XAFLogging.Module.csproj" />
+  </ItemGroup>
+</Project>
