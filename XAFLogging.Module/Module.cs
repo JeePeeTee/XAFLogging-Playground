@@ -1,17 +1,7 @@
-﻿using System.ComponentModel;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
-using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using DevExpress.ExpressApp.Model;
-using DevExpress.ExpressApp.Actions;
-using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Updating;
-using DevExpress.ExpressApp.Model.Core;
-using DevExpress.ExpressApp.Model.DomainLogics;
-using DevExpress.ExpressApp.Model.NodeGenerators;
-using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
 
 namespace XAFLogging.Module;
@@ -22,16 +12,16 @@ public sealed class XAFLoggingModule : ModuleBase {
 		// 
 		// XAFLoggingModule
 		// 
-		AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.ModelDifference));
-		AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.ModelDifferenceAspect));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.BaseObject));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.AuditDataItemPersistent));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.AuditedObjectWeakReference));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.FileData));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.FileAttachmentBase));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.Analysis));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.Event));
-        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.Resource));
+		AdditionalExportedTypes.Add(typeof(ModelDifference));
+		AdditionalExportedTypes.Add(typeof(ModelDifferenceAspect));
+        AdditionalExportedTypes.Add(typeof(BaseObject));
+        AdditionalExportedTypes.Add(typeof(AuditDataItemPersistent));
+        AdditionalExportedTypes.Add(typeof(AuditedObjectWeakReference));
+        AdditionalExportedTypes.Add(typeof(FileData));
+        AdditionalExportedTypes.Add(typeof(FileAttachmentBase));
+        AdditionalExportedTypes.Add(typeof(Analysis));
+        AdditionalExportedTypes.Add(typeof(Event));
+        AdditionalExportedTypes.Add(typeof(Resource));
 		RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.SystemModule.SystemModule));
 		RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Security.SecurityModule));
 		RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.AuditTrail.AuditTrailModule));

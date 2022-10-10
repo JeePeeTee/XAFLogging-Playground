@@ -103,7 +103,7 @@ public class MySimpleActions : ViewController {
 
     protected override void Dispose(bool disposing) {
         if (disposing) {
-            foreach (var action in this.Actions) {
+            foreach (var action in Actions) {
                 action.Dispose();
             }
 

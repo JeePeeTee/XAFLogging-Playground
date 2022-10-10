@@ -2,13 +2,10 @@
 using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.Services;
-using DevExpress.Persistent.Base;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Server.Circuits;
-using DevExpress.ExpressApp.Xpo;
 using XAFLogging.Blazor.Server.Services;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using System.Security.Principal;
 using System.Security.Claims;
@@ -21,9 +18,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.OData;
 using DevExpress.ExpressApp.WebApi.Services;
 using XAFLogging.WebApi.JWT;
-using DevExpress.ExpressApp.Security.Authentication;
 using DevExpress.ExpressApp.Security.Authentication.ClientServer;
-using DevExpress.ExpressApp.Core;
 
 namespace XAFLogging.Blazor.Server;
 
@@ -66,7 +61,7 @@ public class Startup {
                     options.AllowValidationDetailsAccess = false;
                 })
                 .AddViewVariants()
-                .Add<XAFLogging.Module.XAFLoggingModule>()
+                .Add<Module.XAFLoggingModule>()
             	.Add<XAFLoggingBlazorModule>();
             builder.ObjectSpaceProviders
                 .AddSecuredXpo((serviceProvider, options) => {
@@ -90,10 +85,10 @@ public class Startup {
                     options.RoleType = typeof(PermissionPolicyRole);
                     // ApplicationUser descends from PermissionPolicyUser and supports the OAuth authentication. For more information, refer to the following topic: https://docs.devexpress.com/eXpressAppFramework/402197
                     // If your application uses PermissionPolicyUser or a custom user type, set the UserType property as follows:
-                    options.UserType = typeof(XAFLogging.Module.BusinessObjects.ApplicationUser);
+                    options.UserType = typeof(Module.BusinessObjects.ApplicationUser);
                     // ApplicationUserLoginInfo is only necessary for applications that use the ApplicationUser user type.
                     // If you use PermissionPolicyUser or a custom user type, comment out the following line:
-                    options.UserLoginInfoType = typeof(XAFLogging.Module.BusinessObjects.ApplicationUserLoginInfo);
+                    options.UserLoginInfoType = typeof(Module.BusinessObjects.ApplicationUserLoginInfo);
                     options.UseXpoPermissionsCaching();
                 })
                 .AddPasswordAuthentication(options => {
@@ -127,10 +122,10 @@ public class Startup {
                             }
 
                             object CreateApplicationUser(string userName, string providerUserId) {
-                                if(objectSpace.FirstOrDefault<XAFLogging.Module.BusinessObjects.ApplicationUser>(user => user.UserName == userName) != null) {
+                                if(objectSpace.FirstOrDefault<Module.BusinessObjects.ApplicationUser>(user => user.UserName == userName) != null) {
                                     throw new ArgumentException($"The username ('{userName}') was already registered within the system");
                                 }
-                                var user = objectSpace.CreateObject<XAFLogging.Module.BusinessObjects.ApplicationUser>();
+                                var user = objectSpace.CreateObject<Module.BusinessObjects.ApplicationUser>();
                                 user.UserName = userName;
                                 user.SetPassword(Guid.NewGuid().ToString());
                                 user.Roles.Add(objectSpace.FirstOrDefault<PermissionPolicyRole>(role => role.Name == "Default"));
@@ -139,7 +134,7 @@ public class Startup {
                                 return user;
                             }
                             ISecurityUserLoginInfo FindUserLoginInfo(string loginProviderName, string providerUserId) {
-                                return objectSpace.FirstOrDefault<XAFLogging.Module.BusinessObjects.ApplicationUserLoginInfo>(userLoginInfo =>
+                                return objectSpace.FirstOrDefault<Module.BusinessObjects.ApplicationUserLoginInfo>(userLoginInfo =>
                                                     userLoginInfo.LoginProviderName == loginProviderName &&
                                                     userLoginInfo.ProviderUserKey == providerUserId);
                             }
@@ -212,7 +207,7 @@ public class Startup {
                     {
                         new OpenApiSecurityScheme() {
                             Reference = new OpenApiReference() {
-                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Type = ReferenceType.SecurityScheme,
                                 Id = "JWT"
                             }
                         },
@@ -239,7 +234,7 @@ public class Startup {
                         Name = "OAuth2",
                         Scheme = "OAuth2",
                         Reference = new OpenApiReference {
-                            Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                            Type = ReferenceType.SecurityScheme,
                             Id = "OAuth2"
                         },
                         In = ParameterLocation.Header

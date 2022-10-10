@@ -1,18 +1,12 @@
 ﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor;
-using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Security.ClientServer;
-using DevExpress.ExpressApp.SystemModule;
-using DevExpress.ExpressApp.Xpo;
-using XAFLogging.Blazor.Server.Services;
 
 namespace XAFLogging.Blazor.Server;
 
 public class XAFLoggingBlazorApplication : BlazorApplication {
     public XAFLoggingBlazorApplication() {
         ApplicationName = "XAFLogging";
-        CheckCompatibilityType = DevExpress.ExpressApp.CheckCompatibilityType.DatabaseSchema;
+        CheckCompatibilityType = CheckCompatibilityType.DatabaseSchema;
         DatabaseVersionMismatch += XAFLoggingBlazorApplication_DatabaseVersionMismatch;
     }
     protected override void OnSetupStarted() {

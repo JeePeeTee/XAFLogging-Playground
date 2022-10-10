@@ -1,13 +1,7 @@
 ﻿using System.Configuration;
 using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.ApplicationBuilder;
-using DevExpress.ExpressApp.Win.ApplicationBuilder;
-using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Win;
 using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl;
 using DevExpress.XtraEditors;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.ExpressApp.Utils;
 using DevExpress.ExpressApp.Win.Utils;
 using System.Reflection;
@@ -37,7 +31,7 @@ static class Program {
             Console.WriteLine($"            2 - {DBUpdaterStatus.UpdateNotNeeded}");
             return 0;
         }
-        DevExpress.ExpressApp.FrameworkSettings.DefaultSettingsCompatibilityMode = DevExpress.ExpressApp.FrameworkSettingsCompatibilityMode.Latest;
+        FrameworkSettings.DefaultSettingsCompatibilityMode = FrameworkSettingsCompatibilityMode.Latest;
 #if EASYTEST
         DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
 #endif

@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Text;
-using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.Xpo;

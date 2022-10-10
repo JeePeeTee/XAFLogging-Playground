@@ -1,15 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Win;
-using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Win.Utils;
-using DevExpress.ExpressApp.Xpo;
-using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Security.ClientServer;
 using Serilog;
 using Serilog.Context;
 using Serilog.Sinks.MSSqlServer;
@@ -32,11 +26,10 @@ public class XAFLoggingWindowsFormsApplication : WinApplication {
         base.OnLoggedOff();
     }
 
-    
     public XAFLoggingWindowsFormsApplication() {
 		SplashScreen = new DXSplashScreen(typeof(XafSplashScreen), new DefaultOverlayFormOptions());
         ApplicationName = "XAFLogging";
-        CheckCompatibilityType = DevExpress.ExpressApp.CheckCompatibilityType.DatabaseSchema;
+        CheckCompatibilityType = CheckCompatibilityType.DatabaseSchema;
         UseOldTemplates = false;
         DatabaseVersionMismatch += XAFLoggingWindowsFormsApplication_DatabaseVersionMismatch;
         CustomizeLanguagesList += XAFLoggingWindowsFormsApplication_CustomizeLanguagesList;
@@ -81,12 +74,12 @@ public class XAFLoggingWindowsFormsApplication : WinApplication {
     }
 
     private void XAFLoggingWindowsFormsApplication_CustomizeLanguagesList(object sender, CustomizeLanguagesListEventArgs e) {
-        string userLanguageName = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
+        string userLanguageName = Thread.CurrentThread.CurrentUICulture.Name;
         if(userLanguageName != "en-US" && e.Languages.IndexOf(userLanguageName) == -1) {
             e.Languages.Add(userLanguageName);
         }
     }
-    private void XAFLoggingWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e) {
+    private void XAFLoggingWindowsFormsApplication_DatabaseVersionMismatch(object sender, DatabaseVersionMismatchEventArgs e) {
 #if EASYTEST
         e.Updater.Update();
         e.Handled = true;

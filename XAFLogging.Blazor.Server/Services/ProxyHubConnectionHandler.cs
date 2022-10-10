@@ -17,7 +17,7 @@ internal class ProxyHubConnectionHandler<THub> : HubConnectionHandler<THub> wher
         IServiceScopeFactory serviceScopeFactory,
         IValueManagerStorageContainerInitializer storageContainerAccessor)
         : base(lifetimeManager, protocolResolver, globalHubOptions, hubOptions, loggerFactory, userIdProvider, serviceScopeFactory) {
-        this.storageContainerInitializer = storageContainerAccessor;
+        storageContainerInitializer = storageContainerAccessor;
     }
 
     public override Task OnConnectedAsync(ConnectionContext connection) {

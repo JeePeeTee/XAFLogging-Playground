@@ -43,7 +43,7 @@ public class SimpleActions : ViewController {
     private readonly IContainer components = null;
 
     public SimpleActions() {
-        this.components = new Container();
+        components = new Container();
         
         InitializeMySimpleAction();
     }
@@ -67,7 +67,7 @@ public class SimpleActions : ViewController {
 
         _mySimpleAction.Execute += MySimpleAction_Execute;
 
-        this.Actions.Add(_mySimpleAction);
+        Actions.Add(_mySimpleAction);
     }
 
     private void MySimpleAction_Execute(object sender, SimpleActionExecuteEventArgs e) {
@@ -95,7 +95,7 @@ public class SimpleActions : ViewController {
 
     protected override void Dispose(bool disposing) {
         if (disposing) {
-            foreach (var action in this.Actions) {
+            foreach (var action in Actions) {
                 action.Dispose();
             }
 

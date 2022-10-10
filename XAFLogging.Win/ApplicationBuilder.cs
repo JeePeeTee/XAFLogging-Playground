@@ -1,12 +1,9 @@
-﻿using System.Configuration;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Win.ApplicationBuilder;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Win;
-using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
-using DevExpress.XtraEditors;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.ExpressApp.Design;
 
@@ -18,13 +15,13 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         builder.UseApplication<XAFLoggingWindowsFormsApplication>();
         builder.Modules
             .AddAuditTrailXpo(options => {
-                options.AuditDataItemPersistentType = typeof(DevExpress.Persistent.BaseImpl.AuditDataItemPersistent);
+                options.AuditDataItemPersistentType = typeof(AuditDataItemPersistent);
             })
             .AddCharts()
             .AddCloningXpo()
             .AddConditionalAppearance()
             .AddDashboards(options => {
-                options.DashboardDataType = typeof(DevExpress.Persistent.BaseImpl.DashboardData);
+                options.DashboardDataType = typeof(DashboardData);
                 options.DesignerFormStyle = DevExpress.XtraBars.Ribbon.RibbonFormStyle.Ribbon;
             })
             .AddFileAttachments()
@@ -35,7 +32,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
             .AddPivotGrid()
             .AddReports(options => {
                 options.EnableInplaceReports = true;
-                options.ReportDataType = typeof(DevExpress.Persistent.BaseImpl.ReportDataV2);
+                options.ReportDataType = typeof(ReportDataV2);
                 options.ReportStoreMode = DevExpress.ExpressApp.ReportsV2.ReportStoreModes.XML;
             })
             .AddScheduler()
@@ -43,7 +40,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
                 options.AllowValidationDetailsAccess = false;
             })
             .AddViewVariants()
-            .Add<XAFLogging.Module.XAFLoggingModule>()
+            .Add<Module.XAFLoggingModule>()
         	.Add<XAFLoggingWinModule>();
         builder.ObjectSpaceProviders
             .AddSecuredXpo((application, options) => {
@@ -53,8 +50,8 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         builder.Security
             .UseIntegratedMode(options => {
                 options.RoleType = typeof(PermissionPolicyRole);
-                options.UserType = typeof(XAFLogging.Module.BusinessObjects.ApplicationUser);
-                options.UserLoginInfoType = typeof(XAFLogging.Module.BusinessObjects.ApplicationUserLoginInfo);
+                options.UserType = typeof(Module.BusinessObjects.ApplicationUser);
+                options.UserLoginInfoType = typeof(Module.BusinessObjects.ApplicationUserLoginInfo);
                 options.UseXpoPermissionsCaching();
             })
             .UseWindowsAuthentication(options => {
