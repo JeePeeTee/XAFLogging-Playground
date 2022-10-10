@@ -5,6 +5,7 @@ using DevExpress.XtraEditors;
 using DevExpress.ExpressApp.Utils;
 using DevExpress.ExpressApp.Win.Utils;
 using System.Reflection;
+using DevExpress.Persistent.Validation;
 using Serilog;
 
 namespace XAFLogging.Win;
@@ -90,6 +91,12 @@ static class Program {
     
     private class CustomTracing : Tracing {
         public override void LogError(Exception exception) {
+            if (exception is ValidationException validationException) {
+                // Can we log Result.Results ???
+                Log.Error(validationException, "Validation error");
+                return;
+            }
+            
             Log.Error(exception, "System error");// Implement custom logging for exceptions here.
         }
 
