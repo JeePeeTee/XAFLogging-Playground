@@ -93,7 +93,7 @@ static class Program {
         public override void LogError(Exception exception) {
             if (exception is ValidationException validationException) {
                 // Can we log Result.Results ???
-                Log.Error(validationException, "Validation error");
+                Log.Error(validationException, "Validation exception: {Message}", validationException.Message);
                 return;
             }
             
