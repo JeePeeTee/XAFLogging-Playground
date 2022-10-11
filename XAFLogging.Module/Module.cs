@@ -1,14 +1,17 @@
-﻿using DevExpress.ExpressApp;
+﻿using System.Reflection;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Xpo;
+using Serilog.Context;
 
 namespace XAFLogging.Module;
 
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.
 public sealed class XAFLoggingModule : ModuleBase {
     public XAFLoggingModule() {
+	    GlobalLogContext.PushProperty("Version", Assembly.GetExecutingAssembly().GetName().Version);
 		// 
 		// XAFLoggingModule
 		// 
