@@ -6,7 +6,10 @@ using DevExpress.ExpressApp.Utils;
 using DevExpress.ExpressApp.Win.Utils;
 using System.Reflection;
 using DevExpress.Persistent.Validation;
+using DevExpress.Utils.MVVM;
 using Serilog;
+using Serilog.Context;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace XAFLogging.Win;
 
@@ -43,9 +46,9 @@ static class Program {
         if(Tracing.GetFileLocationFromSettings() == DevExpress.Persistent.Base.FileLocation.CurrentUserApplicationDataFolder) {
             Tracing.LocalUserAppDataPath = Application.LocalUserAppDataPath;
         }
-        
+
         Tracing.CreateCustomTracer += delegate(object s, CreateCustomTracerEventArgs args) {
-            args.Tracer = new CustomTracing();
+            args.Tracer = new CustomTracing.CustomTracing();
         };
 
         
@@ -71,6 +74,7 @@ static class Program {
         }
 
         try {
+            GlobalLogContext.PushProperty("Runtime", "Win");
             Log.Information("Application setup");
             winApplication.Setup();
             Log.Information("Application started");
@@ -80,38 +84,12 @@ static class Program {
         catch(Exception e) {
             winApplication.StopSplash();
             winApplication.HandleException(e);
-            Log.Error(e, "Application exception");
+            Log.Fatal(e, "Application exception");
         }
         finally {
             Log.CloseAndFlush();
         }
 
         return 0;
-    }
-    
-    private class CustomTracing : Tracing {
-        public override void LogError(Exception exception) {
-            if (exception is ValidationException validationException) {
-                // Can we log Result.Results ???
-                Log.Error(validationException, "Validation exception: {Message}", validationException.Message);
-                return;
-            }
-            
-            Log.Error(exception, "System error");// Implement custom logging for exceptions here.
-        }
-
-        public override void LogWarning(string text, params object[] args) {
-            //base.LogWarning(text, args);
-            Log.Warning("Warning {Text}, {Args}", text, args);
-        }
-
-        public override void LogText(string text, params object[] args) {
-            //base.LogText(text, args);
-            Log.Debug("Text {Text}, {Args}", text, args);
-        }
-
-        public override void LogSetOfStrings(params string[] args) {
-            //base.LogSetOfStrings(args);
-        }
     }
 }
