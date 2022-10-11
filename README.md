@@ -21,3 +21,7 @@ XAF with Serilog - flexible and structured events logging.
 	}
 }
 ```
+
+## Viewd with Seq
+
+![alt text](https://github.com/jeepeetee/XAFLogging-Playground/blob/master/2022-10-11_13-14-08.png?raw=true)
