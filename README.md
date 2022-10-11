@@ -1,5 +1,5 @@
 # XAFLogging-Playground
-XAF with Serilog.
+XAF with Serilog - flexible and structured events logging.
 
 ## ToDo:
 - Move settings to config
