@@ -49,9 +49,11 @@
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
     <PackageReference Include="Serilog.Enrichers.GlobalLogContext" Version="2.1.0" />
     <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.8.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\XAFLogging.CustomTracing\XAFLogging.CustomTracing.csproj" />
     <ProjectReference Include="..\XAFLogging.Module\XAFLogging.Module.csproj" />
   </ItemGroup>
 </Project>

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XAFLogging.Win", "XAFLoggin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XAFLogging.Blazor.Server", "XAFLogging.Blazor.Server\XAFLogging.Blazor.Server.csproj", "{C9D5FE42-E2B2-485D-8D88-0183F0D97909}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAFLogging.CustomTracing", "XAFLogging.CustomTracing\XAFLogging.CustomTracing.csproj", "{37646E6B-D599-47F5-B40E-CAD10947B23F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,12 @@ Global
 		{C9D5FE42-E2B2-485D-8D88-0183F0D97909}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
 		{C9D5FE42-E2B2-485D-8D88-0183F0D97909}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9D5FE42-E2B2-485D-8D88-0183F0D97909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37646E6B-D599-47F5-B40E-CAD10947B23F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37646E6B-D599-47F5-B40E-CAD10947B23F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37646E6B-D599-47F5-B40E-CAD10947B23F}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{37646E6B-D599-47F5-B40E-CAD10947B23F}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
+		{37646E6B-D599-47F5-B40E-CAD10947B23F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37646E6B-D599-47F5-B40E-CAD10947B23F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

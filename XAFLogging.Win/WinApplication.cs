@@ -6,6 +6,7 @@ using DevExpress.ExpressApp.Win;
 using DevExpress.ExpressApp.Win.Utils;
 using Serilog;
 using Serilog.Context;
+using Serilog.Exceptions;
 using Serilog.Sinks.MSSqlServer;
 
 namespace XAFLogging.Win;
@@ -39,6 +40,8 @@ public class XAFLoggingWindowsFormsApplication : WinApplication {
             .Enrich.FromGlobalLogContext()
             .Enrich.WithMachineName()
             .Enrich.WithProcessId()
+            //Hack Log tons of data during exceptions!
+            //.Enrich.WithExceptionDetails()
             .MinimumLevel.Information()
             .WriteTo.MSSqlServer(
                 connectionString: ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
