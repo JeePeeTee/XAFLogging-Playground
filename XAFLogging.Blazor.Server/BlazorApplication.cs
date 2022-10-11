@@ -1,13 +1,32 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Blazor;
+using DevExpress.Persistent.Validation;
+using Serilog;
+using Serilog.Context;
+using Serilog.Sinks.MSSqlServer;
 
 namespace XAFLogging.Blazor.Server;
 
 public class XAFLoggingBlazorApplication : BlazorApplication {
+    
+    private IDisposable _logUser;
+    protected override void OnLoggedOn(LogonEventArgs args) {
+        base.OnLoggedOn(args);
+        
+        _logUser = GlobalLogContext.PushProperty("User", SecuritySystem.CurrentUserName);
+    }
+    protected override void OnLoggedOff() {
+        _logUser.Dispose();
+        base.OnLoggedOff();
+    }
+
     public XAFLoggingBlazorApplication() {
         ApplicationName = "XAFLogging";
         CheckCompatibilityType = CheckCompatibilityType.DatabaseSchema;
         DatabaseVersionMismatch += XAFLoggingBlazorApplication_DatabaseVersionMismatch;
+        
+        GlobalLogContext.PushProperty("Runtime", "Blazor");
+        Log.Information("Application launched");
     }
     protected override void OnSetupStarted() {
         base.OnSetupStarted();
@@ -16,6 +35,7 @@ public class XAFLoggingBlazorApplication : BlazorApplication {
             DatabaseUpdateMode = DatabaseUpdateMode.UpdateDatabaseAlways;
         }
 #endif
+        
     }
     private void XAFLoggingBlazorApplication_DatabaseVersionMismatch(object sender, DatabaseVersionMismatchEventArgs e) {
 #if EASYTEST

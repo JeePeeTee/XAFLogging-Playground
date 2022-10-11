@@ -2,6 +2,8 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.Persistent.BaseImpl;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 namespace XAFLogging.Blazor.Server;
 
@@ -25,5 +27,24 @@ public sealed class XAFLoggingBlazorModule : ModuleBase {
         base.Setup(application);
         //application.CreateCustomModelDifferenceStore += Application_CreateCustomModelDifferenceStore;
         application.CreateCustomUserModelDifferenceStore += Application_CreateCustomUserModelDifferenceStore;
+
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Seq("http://localhost:5341")
+            .Enrich.FromLogContext()
+            .Enrich.FromGlobalLogContext()
+            .Enrich.WithMachineName()
+            .Enrich.WithProcessId()
+            //Hack Log tons of data during exceptions!
+            //.Enrich.WithExceptionDetails()
+            .MinimumLevel.Information()
+            .WriteTo.MSSqlServer(
+                connectionString: @"Integrated Security=SSPI;Pooling=false;Data Source=(localdb)\mssqllocaldb;Initial Catalog=XAFLogging",
+                columnOptions: Logging.SqlSettings.ColumnOptions,
+                sinkOptions: new MSSqlServerSinkOptions {
+                    SchemaName = "dbo",
+                    TableName = "LogEvents",
+                    AutoCreateSqlTable = true
+                })
+            .CreateLogger();
     }
 }

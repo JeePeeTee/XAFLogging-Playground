@@ -36,6 +36,7 @@ public class XAFLoggingWindowsFormsApplication : WinApplication {
         CustomizeLanguagesList += XAFLoggingWindowsFormsApplication_CustomizeLanguagesList;
 
         Log.Logger = new LoggerConfiguration()
+            .WriteTo.Seq("http://localhost:5341")
             .Enrich.FromLogContext()
             .Enrich.FromGlobalLogContext()
             .Enrich.WithMachineName()
@@ -45,7 +46,7 @@ public class XAFLoggingWindowsFormsApplication : WinApplication {
             .MinimumLevel.Information()
             .WriteTo.MSSqlServer(
                 connectionString: ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
-                columnOptions: ColumnOptions,
+                columnOptions: Logging.SqlSettings.ColumnOptions,
                 sinkOptions: new MSSqlServerSinkOptions {
                     SchemaName = "dbo",
                     TableName = "LogEvents",
@@ -54,27 +55,6 @@ public class XAFLoggingWindowsFormsApplication : WinApplication {
             .CreateLogger();
     }
     
-    private static ColumnOptions ColumnOptions {
-        // Add extra columns to Event logging table
-        get {
-            var columnOptions = new ColumnOptions {
-                AdditionalColumns = new Collection<SqlColumn> {
-                    new SqlColumn
-                        { ColumnName = "User", PropertyName = "User", DataType = SqlDbType.NVarChar, DataLength = 64 },
-                    new SqlColumn
-                        { ColumnName = "MachineName", PropertyName = "MachineName", DataType = SqlDbType.NVarChar, DataLength = 64 },
-                    new SqlColumn
-                        { ColumnName = "ProcessId", PropertyName = "ProcessId", DataType = SqlDbType.Int }
-                }
-            };
-
-            // Remove XML logging
-            columnOptions.Store.Remove(StandardColumn.Properties);
-            // Add Json logging
-            columnOptions.Store.Add(StandardColumn.LogEvent);
-            return columnOptions;
-        }
-    }
 
     private void XAFLoggingWindowsFormsApplication_CustomizeLanguagesList(object sender, CustomizeLanguagesListEventArgs e) {
         string userLanguageName = Thread.CurrentThread.CurrentUICulture.Name;

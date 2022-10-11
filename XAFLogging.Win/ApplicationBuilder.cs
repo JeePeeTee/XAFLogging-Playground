@@ -10,6 +10,7 @@ using DevExpress.ExpressApp.Design;
 namespace XAFLogging.Win;
 
 public class ApplicationBuilder : IDesignTimeApplicationFactory {
+
     public static WinApplication BuildApplication(string connectionString) {
         var builder = WinApplication.CreateBuilder();
         builder.UseApplication<XAFLoggingWindowsFormsApplication>();
@@ -66,6 +67,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
 #endif
         });
         var winApplication = builder.Build();
+        
         return winApplication;
     }
 
