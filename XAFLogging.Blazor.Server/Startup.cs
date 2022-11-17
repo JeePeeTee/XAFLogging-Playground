@@ -1,24 +1,48 @@
-﻿using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.ApplicationBuilder;
-using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
-using DevExpress.ExpressApp.Blazor.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Components.Server.Circuits;
-using XAFLogging.Blazor.Server.Services;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using DevExpress.ExpressApp;
-using System.Security.Principal;
+﻿#region MIT License
+
+// ==========================================================
+// 
+// XAFLogging project - Copyright (c) 2022 JeePeeTee
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// 
+// ===========================================================
+
+#endregion
+
+#region usings
+
 using System.Security.Claims;
-using Microsoft.Identity.Web;
+using System.Security.Principal;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Server.Circuits;
+using Microsoft.AspNetCore.OData;
+using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.OData;
-using DevExpress.ExpressApp.WebApi.Services;
+using XAFLogging.Blazor.Server.Services;
 using XAFLogging.WebApi.JWT;
-using DevExpress.ExpressApp.Security.Authentication.ClientServer;
+
+#endregion
 
 namespace XAFLogging.Blazor.Server;
 
@@ -42,14 +66,10 @@ public class Startup {
         services.AddXaf(Configuration, builder => {
             builder.UseApplication<XAFLoggingBlazorApplication>();
             builder.Modules
-                .AddAuditTrailXpo(options => {
-                    options.AuditDataItemPersistentType = typeof(DevExpress.Persistent.BaseImpl.AuditDataItemPersistent);
-                })
+                .AddAuditTrailXpo(options => { options.AuditDataItemPersistentType = typeof(DevExpress.Persistent.BaseImpl.AuditDataItemPersistent); })
                 .AddCloningXpo()
                 .AddConditionalAppearance()
-                .AddDashboards(options => {
-                    options.DashboardDataType = typeof(DevExpress.Persistent.BaseImpl.DashboardData);
-                })
+                .AddDashboards(options => { options.DashboardDataType = typeof(DevExpress.Persistent.BaseImpl.DashboardData); })
                 .AddFileAttachments()
                 .AddOffice()
                 .AddReports(options => {
@@ -57,16 +77,14 @@ public class Startup {
                     options.ReportDataType = typeof(DevExpress.Persistent.BaseImpl.ReportDataV2);
                     options.ReportStoreMode = DevExpress.ExpressApp.ReportsV2.ReportStoreModes.XML;
                 })
-                .AddValidation(options => {
-                    options.AllowValidationDetailsAccess = false;
-                })
+                .AddValidation(options => { options.AllowValidationDetailsAccess = false; })
                 .AddViewVariants()
                 .Add<Module.XAFLoggingModule>()
-            	.Add<XAFLoggingBlazorModule>();
+                .Add<XAFLoggingBlazorModule>();
             builder.ObjectSpaceProviders
                 .AddSecuredXpo((serviceProvider, options) => {
                     string connectionString = null;
-                    if(Configuration.GetConnectionString("ConnectionString") != null) {
+                    if (Configuration.GetConnectionString("ConnectionString") != null) {
                         connectionString = Configuration.GetConnectionString("ConnectionString");
                     }
 #if EASYTEST
@@ -91,12 +109,8 @@ public class Startup {
                     options.UserLoginInfoType = typeof(Module.BusinessObjects.ApplicationUserLoginInfo);
                     options.UseXpoPermissionsCaching();
                 })
-                .AddPasswordAuthentication(options => {
-                    options.IsSupportChangePassword = true;
-                })
-                .AddWindowsAuthentication(options => {
-                    options.CreateUserAutomatically();
-                })
+                .AddPasswordAuthentication(options => { options.IsSupportChangePassword = true; })
+                .AddWindowsAuthentication(options => { options.CreateUserAutomatically(); })
                 .AddExternalAuthentication(options => {
                     options.Events.OnAuthenticated = (externalAuthenticationContext) => {
                         // When a user successfully logs in with an OAuth provider, you can get their unique user key.
@@ -105,26 +119,30 @@ public class Startup {
                         // For more information, see the following topic: https://docs.devexpress.com/eXpressAppFramework/402197
                         // If this behavior meets your requirements, comment out the line below.
                         return;
-                        if(externalAuthenticationContext.AuthenticatedUser == null &&
-                        externalAuthenticationContext.Principal.Identity.AuthenticationType != SecurityDefaults.PasswordAuthentication &&
-                        externalAuthenticationContext.Principal.Identity.AuthenticationType != SecurityDefaults.WindowsAuthentication && !(externalAuthenticationContext.Principal is WindowsPrincipal)) {
+                        if (externalAuthenticationContext.AuthenticatedUser == null &&
+                            externalAuthenticationContext.Principal.Identity.AuthenticationType != SecurityDefaults.PasswordAuthentication &&
+                            externalAuthenticationContext.Principal.Identity.AuthenticationType != SecurityDefaults.WindowsAuthentication &&
+                            !(externalAuthenticationContext.Principal is WindowsPrincipal)) {
                             const bool autoCreateUser = true;
 
                             IObjectSpace objectSpace = externalAuthenticationContext.LogonObjectSpace;
-                            ClaimsPrincipal externalUser = (ClaimsPrincipal)externalAuthenticationContext.Principal;
+                            var externalUser = (ClaimsPrincipal)externalAuthenticationContext.Principal;
 
-                            var userIdClaim = externalUser.FindFirst("sub") ?? externalUser.FindFirst(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("Unknown user id");
-                            string providerUserId = userIdClaim.Value;
+                            var userIdClaim = externalUser.FindFirst("sub") ?? externalUser.FindFirst(ClaimTypes.NameIdentifier) ??
+                                throw new InvalidOperationException("Unknown user id");
+                            var providerUserId = userIdClaim.Value;
 
                             var userLoginInfo = FindUserLoginInfo(externalUser.Identity.AuthenticationType, providerUserId);
-                            if(userLoginInfo != null || autoCreateUser) {
-                                externalAuthenticationContext.AuthenticatedUser = userLoginInfo?.User ?? CreateApplicationUser(externalUser.Identity.Name, providerUserId);
+                            if (userLoginInfo != null || autoCreateUser) {
+                                externalAuthenticationContext.AuthenticatedUser =
+                                    userLoginInfo?.User ?? CreateApplicationUser(externalUser.Identity.Name, providerUserId);
                             }
 
                             object CreateApplicationUser(string userName, string providerUserId) {
-                                if(objectSpace.FirstOrDefault<Module.BusinessObjects.ApplicationUser>(user => user.UserName == userName) != null) {
+                                if (objectSpace.FirstOrDefault<Module.BusinessObjects.ApplicationUser>(user => user.UserName == userName) != null) {
                                     throw new ArgumentException($"The username ('{userName}') was already registered within the system");
                                 }
+
                                 var user = objectSpace.CreateObject<Module.BusinessObjects.ApplicationUser>();
                                 user.UserName = userName;
                                 user.SetPassword(Guid.NewGuid().ToString());
@@ -133,10 +151,11 @@ public class Startup {
                                 objectSpace.CommitChanges();
                                 return user;
                             }
+
                             ISecurityUserLoginInfo FindUserLoginInfo(string loginProviderName, string providerUserId) {
                                 return objectSpace.FirstOrDefault<Module.BusinessObjects.ApplicationUserLoginInfo>(userLoginInfo =>
-                                                    userLoginInfo.LoginProviderName == loginProviderName &&
-                                                    userLoginInfo.ProviderUserKey == providerUserId);
+                                    userLoginInfo.LoginProviderName == loginProviderName &&
+                                    userLoginInfo.ProviderUserKey == providerUserId);
                             }
                         }
                     };
@@ -145,9 +164,7 @@ public class Startup {
         const string customBearerSchemeName = "CustomBearer";
         var authentication = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
         authentication
-            .AddCookie(options => {
-                options.LoginPath = "/LoginPage";
-            })
+            .AddCookie(options => { options.LoginPath = "/LoginPage"; })
             .AddJwtBearer(customBearerSchemeName, options => {
                 options.TokenValidationParameters = new TokenValidationParameters() {
                     ValidateIssuerSigningKey = true,
@@ -168,11 +185,11 @@ public class Startup {
 
         services.AddAuthorization(options => {
             options.DefaultPolicy = new AuthorizationPolicyBuilder(
-                JwtBearerDefaults.AuthenticationScheme,
-                customBearerSchemeName)
-                    .RequireAuthenticatedUser()
-                    .RequireXafAuthentication()
-                    .Build();
+                    JwtBearerDefaults.AuthenticationScheme,
+                    customBearerSchemeName)
+                .RequireAuthenticatedUser()
+                .RequireXafAuthentication()
+                .Build();
         });
 
         services
@@ -202,17 +219,16 @@ public class Startup {
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header
             });
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
                 {
-                    {
-                        new OpenApiSecurityScheme() {
-                            Reference = new OpenApiReference() {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "JWT"
-                            }
-                        },
-                        new string[0]
+                    new OpenApiSecurityScheme() {
+                        Reference = new OpenApiReference() {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "JWT"
+                        }
                     },
+                    new string[0]
+                },
             });
             var azureAdAuthorityUrl = $"{Configuration["Authentication:AzureAd:Instance"]}{Configuration["Authentication:AzureAd:TenantId"]}";
             c.AddSecurityDefinition("OAuth2", new OpenApiSecurityScheme {
@@ -223,7 +239,10 @@ public class Startup {
                         TokenUrl = new Uri($"{azureAdAuthorityUrl}/oauth2/v2.0/token"),
                         Scopes = new Dictionary<string, string> {
                             // Configure scopes corresponding to https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-expose-web-apis
-                            { @"[Enter the scope name in the XAFLogging.Blazor.Server\Startup.cs file]", @"[Enter the scope description in the XAFLogging.Blazor.Server\Startup.cs file]" }
+                            {
+                                @"[Enter the scope name in the XAFLogging.Blazor.Server\Startup.cs file]",
+                                @"[Enter the scope description in the XAFLogging.Blazor.Server\Startup.cs file]"
+                            }
                         }
                     }
                 }
@@ -247,7 +266,7 @@ public class Startup {
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-        if(env.IsDevelopment()) {
+        if (env.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => {
@@ -261,6 +280,7 @@ public class Startup {
             // The default HSTS value is 30 days. To change this for production scenarios, see: https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+
         app.UseHttpsRedirection();
         app.UseRequestLocalization();
         app.UseStaticFiles();

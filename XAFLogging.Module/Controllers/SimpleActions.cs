@@ -1,80 +1,48 @@
-﻿#region Copyright (c) 2000-2022 Sultan CRM BV
+﻿#region MIT License
+
 // ==========================================================
 // 
-// XAFSira project - Copyright (c) 2000-2022 Sultan CRM BV
-// ALL RIGHTS RESERVED
+// XAFLogging project - Copyright (c) 2022 JeePeeTee
 // 
-// The entire contents of this file is protected by Dutch and
-// International Copyright Laws. Unauthorized reproduction,
-// reverse-engineering, and distribution of all or any portion of
-// the code contained in this file is strictly prohibited and may
-// result in severe civil and criminal penalties and will be
-// prosecuted to the maximum extent possible under the law.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 // 
-// RESTRICTIONS
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
 // 
-// THIS SOURCE CODE AND ALL RESULTING INTERMEDIATE FILES
-// ARE CONFIDENTIAL AND PROPRIETARY TRADE
-// SECRETS OF SULTAN CRM BV. THE REGISTERED DEVELOPER IS
-// NOT LICENSED TO DISTRIBUTE THE PRODUCT AND ALL ACCOMPANYING
-// CODE AS PART OF AN EXECUTABLE PROGRAM.
-// 
-// THE SOURCE CODE CONTAINED WITHIN THIS FILE AND ALL RELATED
-// FILES OR ANY PORTION OF ITS CONTENTS SHALL AT NO TIME BE
-// COPIED, TRANSFERRED, SOLD, DISTRIBUTED, OR OTHERWISE MADE
-// AVAILABLE TO OTHER INDIVIDUALS WITHOUT EXPRESS WRITTEN CONSENT
-// AND PERMISSION FROM SULTAN CRM BV.
-// 
-// CONSULT THE LICENSE AGREEMENT FOR INFORMATION ON
-// ADDITIONAL RESTRICTIONS
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 // 
 // ===========================================================
+
 #endregion
 
+#region usings
+
 using System.ComponentModel;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Actions;
-using DevExpress.Persistent.Base;
 using Serilog;
+
+#endregion
 
 namespace XAFLogging.Module.Controllers;
 
 public class SimpleActions : ViewController {
-    private readonly IContainer components = null;
+    private readonly IContainer components;
 
     public SimpleActions() {
         components = new Container();
-        
+
         InitializeMySimpleAction();
     }
-
-    #region Simple action: MySimpleAction
-
-    private SimpleAction _mySimpleAction = null;
-
-    private void InitializeMySimpleAction() {
-        _mySimpleAction = new SimpleAction(this, nameof(_mySimpleAction), PredefinedCategory.View) {
-            Caption = "MySimpleAction",
-            ConfirmationMessage = null,
-            ImageName = "ModelEditor_Application",
-            SelectionDependencyType = SelectionDependencyType.Independent,
-            ToolTip = null,
-            //TargetObjectType = typeof(string),
-            TargetViewType = ViewType.Any,
-            TargetViewNesting = Nesting.Any,
-            TargetObjectsCriteriaMode = TargetObjectsCriteriaMode.TrueAtLeastForOne,
-        };
-
-        _mySimpleAction.Execute += MySimpleAction_Execute;
-
-        Actions.Add(_mySimpleAction);
-    }
-
-    private void MySimpleAction_Execute(object sender, SimpleActionExecuteEventArgs e) {
-        Log.Information("Module action triggerd...");
-    }
-
-    #endregion Simple action: MySimpleAction
 
     // New actions here... check templates actsmpl, act...
 
@@ -104,4 +72,32 @@ public class SimpleActions : ViewController {
 
         base.Dispose(disposing);
     }
+
+    #region Simple action: MySimpleAction
+
+    private SimpleAction _mySimpleAction;
+
+    private void InitializeMySimpleAction() {
+        _mySimpleAction = new SimpleAction(this, nameof(_mySimpleAction), PredefinedCategory.View) {
+            Caption = "MySimpleAction",
+            ConfirmationMessage = null,
+            ImageName = "ModelEditor_Application",
+            SelectionDependencyType = SelectionDependencyType.Independent,
+            ToolTip = null,
+            //TargetObjectType = typeof(string),
+            TargetViewType = ViewType.Any,
+            TargetViewNesting = Nesting.Any,
+            TargetObjectsCriteriaMode = TargetObjectsCriteriaMode.TrueAtLeastForOne,
+        };
+
+        _mySimpleAction.Execute += MySimpleActionExecute;
+
+        Actions.Add(_mySimpleAction);
+
+        void MySimpleActionExecute(object sender, SimpleActionExecuteEventArgs e) {
+            Log.Information("Module action triggerd...");
+        }
+    }
+
+    #endregion Simple action: MySimpleAction
 }

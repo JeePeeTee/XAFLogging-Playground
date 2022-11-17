@@ -1,7 +1,36 @@
-﻿using System.ComponentModel;
-using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using DevExpress.Xpo;
+﻿#region MIT License
+
+// ==========================================================
+// 
+// XAFLogging project - Copyright (c) 2022 JeePeeTee
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// 
+// ===========================================================
+
+#endregion
+
+#region usings
+
+using System.ComponentModel;
+
+#endregion
 
 namespace XAFLogging.Module.BusinessObjects;
 
@@ -11,7 +40,8 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo 
     public ApplicationUser(Session session) : base(session) { }
 
     [Browsable(false)]
-    [Aggregated, Association("User-LoginInfo")]
+    [Aggregated]
+    [Association("User-LoginInfo")]
     public XPCollection<ApplicationUserLoginInfo> LoginInfo {
         get { return GetCollection<ApplicationUserLoginInfo>(nameof(LoginInfo)); }
     }
@@ -19,7 +49,7 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo 
     IEnumerable<ISecurityUserLoginInfo> IOAuthSecurityUser.UserLogins => LoginInfo.OfType<ISecurityUserLoginInfo>();
 
     ISecurityUserLoginInfo ISecurityUserWithLoginInfo.CreateUserLoginInfo(string loginProviderName, string providerUserKey) {
-        ApplicationUserLoginInfo result = new ApplicationUserLoginInfo(Session);
+        var result = new ApplicationUserLoginInfo(Session);
         result.LoginProviderName = loginProviderName;
         result.ProviderUserKey = providerUserKey;
         result.User = this;

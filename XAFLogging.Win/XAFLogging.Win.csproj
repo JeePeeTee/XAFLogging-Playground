@@ -11,11 +11,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     <ItemGroup>
-        <Using Include="DevExpress.ExpressApp.ListView" Alias="ListView" />
+        <Using Include="DevExpress.ExpressApp.ListView" Alias="ListView"/>
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Model.xafml" />
-        <None Remove="Images\Logo.svg" />
+        <None Remove="Model.xafml"/>
+        <None Remove="Images\Logo.svg"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="Model.xafml">
@@ -23,38 +23,38 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Include="Images\Logo.svg" />
+        <EmbeddedResource Include="Images\Logo.svg"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="DevExpress.ExpressApp" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Chart.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Dashboards.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Notifications.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Office.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.PivotChart.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.PivotGrid.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.ReportsV2.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Scheduler.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Win" Version="22.1.5" />
-        <PackageReference Include="DevExpress.ExpressApp.Xpo" Version="22.1.5" />
-        <PackageReference Include="DevExpress.Persistent.Base" Version="22.1.5" />
-        <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.1.5" />
-        <PackageReference Include="DevExpress.RichEdit.Export" Version="22.1.5" />
-        <PackageReference Include="DevExpress.Win.Design" Version="22.1.5" />
-        <PackageReference Include="Serilog" Version="2.12.0" />
-        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
-        <PackageReference Include="Serilog.Enrichers.GlobalLogContext" Version="2.1.0" />
-        <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
-        <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
-        <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.8.0" />
-        <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.1" />
+        <PackageReference Include="DevExpress.ExpressApp" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Chart.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Dashboards.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Notifications.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Office.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.PivotChart.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.PivotGrid.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.ReportsV2.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Scheduler.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Win" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.ExpressApp.Xpo" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.Persistent.Base" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.RichEdit.Export" Version="22.1.5"/>
+        <PackageReference Include="DevExpress.Win.Design" Version="22.1.5"/>
+        <PackageReference Include="Serilog" Version="2.12.0"/>
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0"/>
+        <PackageReference Include="Serilog.Enrichers.GlobalLogContext" Version="2.1.0"/>
+        <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2"/>
+        <PackageReference Include="Serilog.Exceptions" Version="8.4.0"/>
+        <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.8.0"/>
+        <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.1"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\XAFLogging.Logging\XAFLogging.Logging.csproj" />
-        <ProjectReference Include="..\XAFLogging.Module\XAFLogging.Module.csproj" />
+        <ProjectReference Include="..\XAFLogging.Logging\XAFLogging.Logging.csproj"/>
+        <ProjectReference Include="..\XAFLogging.Module\XAFLogging.Module.csproj"/>
     </ItemGroup>
 </Project>

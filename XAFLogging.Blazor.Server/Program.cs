@@ -1,12 +1,37 @@
-﻿using System.Reflection;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Blazor.DesignTime;
-using DevExpress.ExpressApp.Design;
-using DevExpress.ExpressApp.Utils;
-using DevExpress.Persistent.Base;
-using DevExpress.Persistent.Validation;
+﻿#region MIT License
+
+// ==========================================================
+// 
+// XAFLogging project - Copyright (c) 2022 JeePeeTee
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// 
+// ===========================================================
+
+#endregion
+
+#region usings
+
+using System.Reflection;
 using Serilog;
-using Serilog.Sinks.MSSqlServer;
+
+#endregion
 
 namespace XAFLogging.Blazor.Server;
 
@@ -16,13 +41,10 @@ public class Program : IDesignTimeApplicationFactory {
     }
 
     public static int Main(string[] args) {
+        Tracing.CreateCustomTracer += delegate(object s, CreateCustomTracerEventArgs args) { args.Tracer = new CustomTracing(); };
 
-        Tracing.CreateCustomTracer += delegate(object s, CreateCustomTracerEventArgs args) {
-            args.Tracer = new CustomTracing();
-        };
-        
         Tracing.Initialize();
-        
+
         if (ContainsArgument(args, "help") || ContainsArgument(args, "h")) {
             Console.WriteLine("Updates the database when its version does not match the application's version.");
             Console.WriteLine();
@@ -37,7 +59,7 @@ public class Program : IDesignTimeApplicationFactory {
         }
         else {
             FrameworkSettings.DefaultSettingsCompatibilityMode = FrameworkSettingsCompatibilityMode.Latest;
-            IHost host = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
             if (ContainsArgument(args, "updateDatabase")) {
                 using (var serviceScope = host.Services.CreateScope()) {
                     return serviceScope.ServiceProvider.GetRequiredService<DevExpress.ExpressApp.Utils.IDBUpdater>()
@@ -48,7 +70,7 @@ public class Program : IDesignTimeApplicationFactory {
                 host.Run();
             }
         }
-        
+
         return 0;
     }
 
@@ -58,10 +80,10 @@ public class Program : IDesignTimeApplicationFactory {
             .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 
     XafApplication IDesignTimeApplicationFactory.Create() {
-        IHostBuilder hostBuilder = CreateHostBuilder(Array.Empty<string>());
+        var hostBuilder = CreateHostBuilder(Array.Empty<string>());
         return DesignTimeApplicationFactoryHelper.Create(hostBuilder);
     }
-    
+
     private class CustomTracing : Tracing {
         // Hack Not supported by Blazor ???
         public override void LogError(Exception exception) {
@@ -71,7 +93,7 @@ public class Program : IDesignTimeApplicationFactory {
                     //ToDo Logs too much data...
                     //Removed 
                     //Log.Error(validationException, "Validation exception: {Details}", validationException.Result.Results);
-                    Log.Error(validationException, "Validation exception");    
+                    Log.Error(validationException, "Validation exception");
                     break;
                 default:
                     Log.Error(exception, "System error");
