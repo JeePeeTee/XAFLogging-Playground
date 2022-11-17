@@ -29,6 +29,12 @@
 #region usings
 
 using System.Reflection;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Blazor.DesignTime;
+using DevExpress.ExpressApp.Design;
+using DevExpress.ExpressApp.Utils;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.Validation;
 using Serilog;
 
 #endregion

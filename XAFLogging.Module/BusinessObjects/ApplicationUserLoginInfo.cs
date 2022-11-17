@@ -26,6 +26,11 @@
 
 #endregion
 
+using DevExpress.ExpressApp.ConditionalAppearance;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+
 namespace XAFLogging.Module.BusinessObjects;
 
 [DeferredDeletion(false)]

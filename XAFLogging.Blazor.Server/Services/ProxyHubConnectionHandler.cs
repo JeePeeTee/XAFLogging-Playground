@@ -28,6 +28,7 @@
 
 #region usings
 
+using DevExpress.ExpressApp.Blazor.Services;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;

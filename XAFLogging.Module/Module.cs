@@ -29,6 +29,11 @@
 #region usings
 
 using System.Reflection;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.Updating;
+using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.BaseImpl;
 using Serilog.Context;
 
 #endregion

@@ -29,6 +29,11 @@
 #region usings
 
 using System.Reflection;
+using DevExpress.ExpressApp.Win.Utils;
+using DevExpress.Skins;
+using DevExpress.Utils.Drawing;
+using DevExpress.Utils.Svg;
+using DevExpress.XtraSplashScreen;
 
 #endregion
 

@@ -29,6 +29,10 @@
 #region usings
 
 using System.ComponentModel;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Updating;
+using DevExpress.Persistent.BaseImpl;
 
 #endregion
 

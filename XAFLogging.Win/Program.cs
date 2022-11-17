@@ -31,6 +31,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Reflection;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Utils;
+using DevExpress.ExpressApp.Win.Utils;
+using DevExpress.Persistent.Base;
+using DevExpress.XtraEditors;
 using Serilog;
 using Serilog.Context;
 

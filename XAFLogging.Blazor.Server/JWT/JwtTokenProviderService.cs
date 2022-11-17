@@ -31,6 +31,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Security.Authentication;
+using DevExpress.ExpressApp.Security.Authentication.ClientServer;
 using Microsoft.IdentityModel.Tokens;
 
 #endregion

@@ -29,6 +29,9 @@
 #region usings
 
 using System.ComponentModel;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Updating;
+using DevExpress.Persistent.BaseImpl;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 

@@ -29,6 +29,9 @@
 #region usings
 
 using System.Configuration;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Win;
+using DevExpress.ExpressApp.Win.Utils;
 using Serilog;
 using Serilog.Context;
 using Serilog.Sinks.MSSqlServer;

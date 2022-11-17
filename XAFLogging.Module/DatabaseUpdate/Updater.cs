@@ -28,6 +28,13 @@
 
 #region usings
 
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.SystemModule;
+using DevExpress.ExpressApp.Updating;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using XAFLogging.Module.BusinessObjects;
 
 #endregion

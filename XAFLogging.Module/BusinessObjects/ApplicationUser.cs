@@ -29,6 +29,9 @@
 #region usings
 
 using System.ComponentModel;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl.PermissionPolicy;
+using DevExpress.Xpo;
 
 #endregion
 

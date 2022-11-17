@@ -29,6 +29,9 @@
 #region usings
 
 using System.ComponentModel;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.Persistent.Base;
 using Serilog;
 
 #endregion

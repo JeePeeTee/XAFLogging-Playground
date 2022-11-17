@@ -26,6 +26,15 @@
 
 #endregion
 
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.ApplicationBuilder;
+using DevExpress.ExpressApp.Design;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Win;
+using DevExpress.ExpressApp.Win.ApplicationBuilder;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Persistent.BaseImpl.PermissionPolicy;
+
 namespace XAFLogging.Win;
 
 public class ApplicationBuilder : IDesignTimeApplicationFactory {

@@ -28,6 +28,8 @@
 
 #region usings
 
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Blazor;
 using Serilog;
 using Serilog.Context;
 
